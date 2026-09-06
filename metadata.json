@@ -1,0 +1,6 @@
+{
+  "name": "Mahabali — Three Steps",
+  "description": "An atmospheric Kerala 2D indie game honoring Onam traditions through the three legendary steps of King Mahabali.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
