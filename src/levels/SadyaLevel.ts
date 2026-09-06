@@ -240,7 +240,6 @@ export class SadyaLevel {
     this.selectedQueueIndex = 0;
     this.lastFeedback = null;
     this.particles.clear();
-    soundManager.ensureMusicPlaying();
 
     // Initial shuffle queue of dishes
     this.currentDishQueue = [...SADYA_DISHES].sort(() => Math.random() - 0.5);

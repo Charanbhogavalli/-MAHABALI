@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { ArrowLeft, Star, Play, Timer, Sparkles, Flower2, Ship, Utensils } from 'lucide-react';
 import { globalAudio } from '../audio/GlobalAudioManager';
 import { ASSETS } from '../assets/assetRegistry';
@@ -15,10 +15,6 @@ export const LevelSelectScene: React.FC<LevelSelectSceneProps> = ({
   onSelectLevel,
   onBack,
 }) => {
-  useEffect(() => {
-    globalAudio.init();
-    globalAudio.ensureMusicPlaying();
-  }, []);
   const levels = [
     {
       num: 1,
@@ -59,7 +55,7 @@ export const LevelSelectScene: React.FC<LevelSelectSceneProps> = ({
   ];
 
   return (
-    <div className="relative w-full h-full flex flex-col items-center justify-between p-4 sm:p-5 text-[#fbf6ea] bg-[#110703] overflow-y-auto select-none">
+    <div className="relative w-full h-full min-h-0 flex flex-col items-center justify-between p-3 sm:p-4 text-[#fbf6ea] bg-[#110703] overflow-y-auto overflow-x-hidden select-none">
       {/* Background Paisley Pattern Texture */}
       <div
         className="absolute inset-0 bg-cover bg-center opacity-20 mix-blend-color-dodge pointer-events-none"
@@ -105,8 +101,8 @@ export const LevelSelectScene: React.FC<LevelSelectSceneProps> = ({
               }}
               className={`p-4 rounded-2xl bg-[#1d0c05]/90 backdrop-blur-md border ${lvl.borderAccent} hover:border-amber-400/80 active:scale-98 transition-all cursor-pointer shadow-xl shadow-black/50 group`}
             >
-              <div className="flex items-center justify-between mb-1.5">
-                <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                <div className="flex min-w-0 flex-wrap items-center gap-2">
                   <div className={`p-1.5 rounded-lg bg-gradient-to-br ${lvl.accentColor} text-white shadow-md`}>
                     <IconComponent className="w-3.5 h-3.5" />
                   </div>
@@ -119,7 +115,7 @@ export const LevelSelectScene: React.FC<LevelSelectSceneProps> = ({
                   </div>
                 </div>
 
-                <div className="flex items-center gap-0.5">
+                <div className="flex items-center gap-0.5 shrink-0">
                   {[1, 2, 3].map((star) => (
                     <Star
                       key={star}

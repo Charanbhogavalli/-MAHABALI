@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Pause, Volume2, VolumeX } from 'lucide-react';
+import { Pause } from 'lucide-react';
 import { soundManager } from '../audio/SoundManager';
 import { ParticleSystem } from '../engine/particles';
 import { PookalamLevel } from '../levels/PookalamLevel';
@@ -9,18 +9,14 @@ import { GameState, LevelScore, TouchPosition } from '../types/game';
 
 interface GameCanvasProps {
   currentLevel: 1 | 2 | 3;
-  soundEnabled: boolean;
   isBriefingActive?: boolean;
-  onToggleSound: () => void;
   onPause: () => void;
   onLevelComplete: (level: 1 | 2 | 3, score: LevelScore) => void;
 }
 
 export const GameCanvas: React.FC<GameCanvasProps> = ({
   currentLevel,
-  soundEnabled,
   isBriefingActive = false,
-  onToggleSound,
   onPause,
   onLevelComplete,
 }) => {
@@ -164,26 +160,13 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
     >
       <canvas
         ref={canvasRef}
-        width={360}
-        height={640}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
-        className="w-full h-full block cursor-pointer"
+        className="w-full h-full block cursor-pointer touch-none"
       />
 
-      {/* Top Floating Utility HUD (Pause & Sound) */}
+      {/* Top Floating Utility HUD */}
       <div className="absolute top-2.5 right-3.5 z-30 flex items-center gap-2">
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            onToggleSound();
-          }}
-          className="p-1.5 rounded-full bg-[#1b0c05]/80 border border-[#b45309]/50 text-[#fef08a] active:scale-95 transition-all cursor-pointer"
-          aria-label="Toggle Sound"
-        >
-          {soundEnabled ? <Volume2 className="w-3.5 h-3.5" /> : <VolumeX className="w-3.5 h-3.5 opacity-50" />}
-        </button>
-
         <button
           onClick={(e) => {
             e.stopPropagation();

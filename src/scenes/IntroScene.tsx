@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { soundManager } from '../audio/SoundManager';
 import { Film, Play } from 'lucide-react';
 
@@ -8,14 +8,10 @@ interface IntroSceneProps {
 }
 
 export const IntroScene: React.FC<IntroSceneProps> = ({ onStartLevel1, onWatchStory }) => {
-  useEffect(() => {
-    soundManager.init();
-    soundManager.ensureMusicPlaying();
-  }, []);
   return (
-    <div className="relative w-full h-full flex flex-col items-center justify-between p-6 text-[#fbf6ea] bg-[#110703] select-none">
+    <div className="relative w-full h-full min-h-0 flex flex-col items-center justify-between p-4 sm:p-6 text-[#fbf6ea] bg-[#110703] select-none overflow-y-auto overflow-x-hidden">
       {/* Top Header */}
-      <div className="w-full pt-4 text-center">
+      <div className="w-full pt-4 text-center shrink-0">
         <p className="text-[11px] font-cinzel uppercase tracking-[0.25em] text-[#f59e0b]">
           PROLOGUE
         </p>
@@ -25,7 +21,7 @@ export const IntroScene: React.FC<IntroSceneProps> = ({ onStartLevel1, onWatchSt
       </div>
 
       {/* Story Cards */}
-      <div className="max-w-xs space-y-4 text-center my-auto">
+      <div className="w-full max-w-xs space-y-4 text-center my-auto py-4 shrink-0">
         <p className="text-xs md:text-sm text-[#e2e8f0]/90 leading-relaxed font-philosopher">
           Every year during the harvest month of Chingam, the beloved King Mahabali returns to his kingdom to witness the joy, prosperity, and unity of Kerala.
         </p>
@@ -59,7 +55,7 @@ export const IntroScene: React.FC<IntroSceneProps> = ({ onStartLevel1, onWatchSt
       </div>
 
       {/* Start Button */}
-      <div className="w-full pb-4 flex justify-center">
+      <div className="w-full pb-4 flex justify-center shrink-0">
         <button
           onClick={() => {
             soundManager.playTap();

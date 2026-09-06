@@ -69,13 +69,13 @@ export const ResultScene: React.FC<ResultSceneProps> = ({
               soundManager.playTap();
               onSelectLevel(1);
             }}
-            className="p-3 rounded-xl bg-[#1c0d05]/90 border border-[#b45309]/30 flex items-center justify-between hover:bg-[#2e1409] active:scale-98 transition-all cursor-pointer"
+            className="p-3 rounded-xl bg-[#1c0d05]/90 border border-[#b45309]/30 flex items-center justify-between gap-3 hover:bg-[#2e1409] active:scale-98 transition-all cursor-pointer"
           >
-            <div>
+            <div className="min-w-0">
               <p className="text-[10px] font-cinzel text-[#f59e0b] tracking-wider">STEP I — CREATE</p>
               <p className="text-xs font-bold text-[#fef08a] font-philosopher">Pookalam</p>
             </div>
-            <div className="text-right">
+            <div className="text-right shrink-0">
               <p className="text-xs font-semibold text-[#f8fafc]">
                 Acc: <span className="text-[#facc15]">{l1.accuracy}%</span> · Harm: <span className="text-[#facc15]">{l1.secondary}%</span>
               </p>
@@ -89,13 +89,13 @@ export const ResultScene: React.FC<ResultSceneProps> = ({
               soundManager.playTap();
               onSelectLevel(2);
             }}
-            className="p-3 rounded-xl bg-[#1c0d05]/90 border border-[#b45309]/30 flex items-center justify-between hover:bg-[#2e1409] active:scale-98 transition-all cursor-pointer"
+            className="p-3 rounded-xl bg-[#1c0d05]/90 border border-[#b45309]/30 flex items-center justify-between gap-3 hover:bg-[#2e1409] active:scale-98 transition-all cursor-pointer"
           >
-            <div>
+            <div className="min-w-0">
               <p className="text-[10px] font-cinzel text-[#f59e0b] tracking-wider">STEP II — UNITE</p>
               <p className="text-xs font-bold text-[#fef08a] font-philosopher">Vallam Kali</p>
             </div>
-            <div className="text-right">
+            <div className="text-right shrink-0">
               <p className="text-xs font-semibold text-[#f8fafc]">
                 Rhythm: <span className="text-[#facc15]">{l2.accuracy}%</span> · Nav: <span className="text-[#facc15]">{l2.secondary}%</span>
               </p>
@@ -109,13 +109,13 @@ export const ResultScene: React.FC<ResultSceneProps> = ({
               soundManager.playTap();
               onSelectLevel(3);
             }}
-            className="p-3 rounded-xl bg-[#1c0d05]/90 border border-[#b45309]/30 flex items-center justify-between hover:bg-[#2e1409] active:scale-98 transition-all cursor-pointer"
+            className="p-3 rounded-xl bg-[#1c0d05]/90 border border-[#b45309]/30 flex items-center justify-between gap-3 hover:bg-[#2e1409] active:scale-98 transition-all cursor-pointer"
           >
-            <div>
+            <div className="min-w-0">
               <p className="text-[10px] font-cinzel text-[#f59e0b] tracking-wider">STEP III — CELEBRATE</p>
               <p className="text-xs font-bold text-[#fef08a] font-philosopher">Onam Sadya</p>
             </div>
-            <div className="text-right">
+            <div className="text-right shrink-0">
               <p className="text-xs font-semibold text-[#f8fafc]">
                 Acc: <span className="text-[#facc15]">{l3.accuracy}%</span> · Prec: <span className="text-[#facc15]">{l3.secondary}%</span>
               </p>

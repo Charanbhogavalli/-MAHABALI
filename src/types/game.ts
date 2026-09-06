@@ -30,7 +30,6 @@ export interface GameSaveData {
     3: LevelScore;
   };
   totalPlays: number;
-  soundEnabled: boolean;
 }
 
 export interface FlowerType {

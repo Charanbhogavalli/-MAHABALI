@@ -72,12 +72,6 @@ export const StoryCinematicScene: React.FC<StoryCinematicSceneProps> = ({ onComp
 
   const chapter = CHAPTERS[currentIdx];
 
-  // Keep festive background song playing during prologue story cinematic
-  useEffect(() => {
-    soundManager.init();
-    soundManager.ensureMusicPlaying();
-  }, []);
-
   // Auto progression timer (8 seconds per chapter)
   useEffect(() => {
     if (!isAutoPlaying) return;
@@ -123,7 +117,7 @@ export const StoryCinematicScene: React.FC<StoryCinematicSceneProps> = ({ onComp
   };
 
   return (
-    <div className={`relative w-full h-full flex flex-col justify-between p-5 text-[#fbf6ea] bg-gradient-to-b ${chapter.bgGradient} bg-[#0c0502] select-none transition-all duration-700 overflow-hidden`}>
+    <div className={`relative w-full h-full min-h-0 flex flex-col justify-between p-3 sm:p-5 text-[#fbf6ea] bg-gradient-to-b ${chapter.bgGradient} bg-[#0c0502] select-none transition-all duration-700 overflow-y-auto overflow-x-hidden`}>
       
       {/* Dynamic Animated Particles / Light Beams */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -181,10 +175,10 @@ export const StoryCinematicScene: React.FC<StoryCinematicSceneProps> = ({ onComp
       </div>
 
       {/* Central Visual Art Card with Custom Illustrations */}
-      <div className="relative z-10 my-auto flex flex-col items-center justify-center space-y-4 py-2">
+      <div className="relative z-10 my-4 flex flex-col items-center justify-center space-y-4 py-2 shrink-0">
         
         {/* Animated Artwork Canvas Avatar Box */}
-        <div className="relative w-44 h-44 rounded-3xl bg-gradient-to-b from-[#241108] to-[#120602] border-2 border-[#b45309]/60 shadow-2xl shadow-black/80 flex items-center justify-center overflow-hidden group">
+        <div className="relative w-[min(11rem,70vw)] h-[min(11rem,70vw)] rounded-3xl bg-gradient-to-b from-[#241108] to-[#120602] border-2 border-[#b45309]/60 shadow-2xl shadow-black/80 flex items-center justify-center overflow-hidden group shrink-0">
           
           {/* Radial Light Burst */}
           <div
@@ -218,7 +212,7 @@ export const StoryCinematicScene: React.FC<StoryCinematicSceneProps> = ({ onComp
           {chapter.visualType === 'trivikrama_steps' && (
             <div className="relative flex flex-col items-center">
               <Footprints className="w-16 h-16 text-purple-400 drop-shadow-[0_0_20px_rgba(168,85,247,0.7)] animate-pulse" />
-              <div className="flex items-center gap-2 mt-2">
+              <div className="flex flex-wrap items-center justify-center gap-2 mt-2 px-2">
                 <span className="text-[10px] px-2 py-0.5 rounded bg-purple-900/80 border border-purple-400 text-purple-200 font-bold">1. BHULOKA</span>
                 <span className="text-[10px] px-2 py-0.5 rounded bg-purple-900/80 border border-purple-400 text-purple-200 font-bold">2. SWARGA</span>
               </div>
@@ -264,7 +258,7 @@ export const StoryCinematicScene: React.FC<StoryCinematicSceneProps> = ({ onComp
       </div>
 
       {/* Bottom Navigation Controls */}
-      <div className="relative z-10 w-full pb-2 flex items-center justify-between gap-3">
+      <div className="relative z-10 w-full pb-2 flex items-center justify-between gap-3 shrink-0">
         <button
           onClick={handlePrev}
           disabled={currentIdx === 0}

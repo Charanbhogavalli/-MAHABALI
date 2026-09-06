@@ -4,7 +4,6 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { soundManager } from './audio/SoundManager';
 import { ASSETS } from './assets/assetRegistry';
 import { TitleScene } from './scenes/TitleScene';
 import { IntroScene } from './scenes/IntroScene';
@@ -14,7 +13,6 @@ import { FinalThiruvonamScene } from './scenes/FinalThiruvonamScene';
 import { ResultScene } from './scenes/ResultScene';
 import { LevelSelectScene } from './scenes/LevelSelectScene';
 import { PauseModal } from './components/PauseModal';
-import { VibeStudioModal } from './components/VibeStudioModal';
 import { MissionBriefingModal } from './components/MissionBriefingModal';
 import { GameState, GameSaveData, LevelScore } from './types/game';
 
@@ -26,7 +24,6 @@ const INITIAL_SAVE_DATA: GameSaveData = {
     3: { accuracy: 0, secondary: 0, timeSeconds: 0, totalPoints: 0, stars: 0, completed: false },
   },
   totalPlays: 0,
-  soundEnabled: true,
 };
 
 const STORAGE_KEY = 'mahabali_three_steps_save';
@@ -36,41 +33,6 @@ export default function App() {
   const [currentLevel, setCurrentLevel] = useState<1 | 2 | 3>(1);
   const [isPaused, setIsPaused] = useState<boolean>(false);
   const [showBriefing, setShowBriefing] = useState<boolean>(false);
-  const [isVibeStudioOpen, setIsVibeStudioOpen] = useState<boolean>(false);
-  const [soundEnabled, setSoundEnabled] = useState<boolean>(true);
-
-  // Keep soundEnabled state in sync with audio manager
-  useEffect(() => {
-    const unsub = soundManager.subscribe((st) => {
-      setSoundEnabled(!st.isMuted);
-    });
-    return unsub;
-  }, []);
-
-  // Initialize and play music on first user interaction anywhere in the app
-  useEffect(() => {
-    const unlockEvents = ['pointerdown', 'keydown', 'touchend'] as const;
-
-    const tryUnlockAudio = () => {
-      soundManager.init();
-      soundManager.unmute();
-      soundManager.ensureMusicPlaying();
-    };
-
-    unlockEvents.forEach((evt) => {
-      window.addEventListener(evt, tryUnlockAudio, { once: true, passive: true });
-    });
-
-    // Check if browser allows autoplay immediately
-    tryUnlockAudio();
-
-    return () => {
-      unlockEvents.forEach((evt) => {
-        window.removeEventListener(evt, tryUnlockAudio);
-      });
-    };
-  }, []);
-
   const [saveData, setSaveData] = useState<GameSaveData>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
@@ -90,11 +52,6 @@ export default function App() {
       } catch {}
       return next;
     });
-  };
-
-  const handleToggleSound = () => {
-    const isMuted = soundManager.toggleMute();
-    setSoundEnabled(!isMuted);
   };
 
   const handleStartGame = () => {
@@ -161,7 +118,7 @@ export default function App() {
   };
 
   return (
-    <main className="relative w-screen h-screen flex items-center justify-center bg-[#0d0502] overflow-hidden">
+    <main className="game-root">
       {/* Surrounding Ambient Kerala Paisley Wallpaper for Wide/Desktop screens */}
       <div
         className="absolute inset-0 bg-cover bg-center opacity-25 mix-blend-color-dodge pointer-events-none scale-105"
@@ -169,21 +126,13 @@ export default function App() {
       />
       <div className="absolute inset-0 bg-gradient-to-b from-[#0a0301]/80 via-transparent to-[#0a0301]/95 pointer-events-none" />
 
-      {/* 
-        Mobile 9:16 Portrait Canvas Viewport.
-        On mobile screens, it fills 100% of the screen seamlessly.
-        On desktop or tablets, it renders centered with an elegant hand-painted border.
-      */}
-      <div className="relative z-10 w-full h-full sm:max-w-[420px] sm:max-h-[860px] sm:rounded-3xl sm:border sm:border-[#f59e0b]/40 sm:shadow-2xl sm:shadow-amber-950/80 bg-[#110703] overflow-hidden flex flex-col">
+      <div className="game-shell">
         {/* Active Scene Router */}
         {gameState === 'TITLE' && (
           <TitleScene
             saveData={saveData}
-            soundEnabled={soundEnabled}
-            onToggleSound={handleToggleSound}
             onStartGame={handleStartGame}
             onOpenStory={() => setGameState('STORY_CINEMATIC')}
-            onOpenVibeStudio={() => setIsVibeStudioOpen(true)}
             onOpenLevelSelect={() => setGameState('LEVEL_SELECT')}
           />
         )}
@@ -213,9 +162,7 @@ export default function App() {
           <>
             <GameCanvas
               currentLevel={currentLevel}
-              soundEnabled={soundEnabled}
               isBriefingActive={showBriefing}
-              onToggleSound={handleToggleSound}
               onPause={() => setIsPaused(true)}
               onLevelComplete={handleLevelComplete}
             />
@@ -248,25 +195,15 @@ export default function App() {
         {/* Global In-Game Pause Modal */}
         <PauseModal
           isOpen={isPaused}
-          soundEnabled={soundEnabled}
           onResume={() => setIsPaused(false)}
           onRestart={handleRestartLevel}
           onGoHome={handleGoHome}
-          onToggleSound={handleToggleSound}
-          onOpenVibeStudio={() => setIsVibeStudioOpen(true)}
           onShowBriefing={() => {
             setIsPaused(false);
             setShowBriefing(true);
           }}
         />
 
-        {/* Secret Vibe Studio Modal (Custom BGM upload & Mode switcher) */}
-        <VibeStudioModal
-          isOpen={isVibeStudioOpen}
-          onClose={() => setIsVibeStudioOpen(false)}
-          soundEnabled={soundEnabled}
-          onToggleSound={handleToggleSound}
-        />
       </div>
     </main>
   );

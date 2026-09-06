@@ -19,7 +19,6 @@ export const FinalThiruvonamScene: React.FC<FinalThiruvonamSceneProps> = ({
   const animTickRef = useRef<number>(0);
 
   useEffect(() => {
-    soundManager.startAmbientTrack(1);
     soundManager.playLevelSuccess();
 
     // Sequence the emotional reveal timeline
@@ -40,6 +39,20 @@ export const FinalThiruvonamScene: React.FC<FinalThiruvonamSceneProps> = ({
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
+
+    const resizeCanvas = () => {
+      const parent = canvas.parentElement;
+      if (!parent) return;
+      const rect = parent.getBoundingClientRect();
+      if (rect.width > 0 && rect.height > 0) {
+        canvas.width = Math.floor(rect.width);
+        canvas.height = Math.floor(rect.height);
+      }
+    };
+
+    resizeCanvas();
+    const resizeObserver = new ResizeObserver(resizeCanvas);
+    resizeObserver.observe(canvas.parentElement!);
 
     const renderLoop = () => {
       animTickRef.current++;
@@ -135,22 +148,23 @@ export const FinalThiruvonamScene: React.FC<FinalThiruvonamSceneProps> = ({
     };
 
     animationFrameId = requestAnimationFrame(renderLoop);
-    return () => cancelAnimationFrame(animationFrameId);
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      resizeObserver.disconnect();
+    };
   }, []);
 
   return (
     <div className="relative w-full h-full flex flex-col items-center justify-between text-[#fbf6ea] overflow-hidden select-none">
       <canvas
         ref={canvasRef}
-        width={360}
-        height={640}
         className="absolute inset-0 w-full h-full object-cover"
       />
 
       {/* Narrative & Phase Text Overlays */}
       <div className="relative z-10 w-full flex flex-col items-center pt-5 px-5 text-center">
         {phase >= 1 && (
-          <div className="flex items-center justify-center gap-2 md:gap-3 my-1.5 animate-fade-in">
+          <div className="w-full flex flex-wrap items-center justify-center gap-2 md:gap-3 my-1.5 animate-fade-in">
             <div className="px-2.5 py-1 rounded-full bg-[#271206]/85 border border-[#f59e0b]/40 backdrop-blur-xs flex items-center gap-1.5">
               <span className="text-[9px] tracking-wider font-cinzel text-[#f59e0b]">I. CREATE</span>
               <span className="text-[11px] text-[#fef08a] font-philosopher">Pookalam</span>

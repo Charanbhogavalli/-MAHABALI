@@ -140,7 +140,6 @@ export class PookalamLevel {
     this.popups = [];
     this.showBlueprintPreview = false;
     this.particles.clear();
-    soundManager.ensureMusicPlaying();
 
     this.initSlots();
   }

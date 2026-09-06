@@ -100,7 +100,6 @@ export class VallamKaliLevel {
     this.bonusPoints = 0;
     this.remainingTime = this.totalDurationSeconds;
     this.particles.clear();
-    soundManager.ensureMusicPlaying();
 
     this.generateHazards();
   }
